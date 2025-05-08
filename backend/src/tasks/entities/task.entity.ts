@@ -1,3 +1,4 @@
+import { TaskStatus } from 'src/tasks/constants/task-status.enum';
 import {
   Column,
   Entity,
@@ -5,12 +6,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum TaskStatus {
-  PENDING = 'pending',
-  IN_PROGRESS = 'in_progress',
-  DONE = 'done',
-}
 
 @Entity()
 export class Task {
