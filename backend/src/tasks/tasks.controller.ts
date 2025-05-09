@@ -8,10 +8,12 @@ import {
   Delete,
   Res,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskFilterDto } from 'src/tasks/dto/task-filter.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -23,8 +25,8 @@ export class TasksController {
   }
 
   @Get()
-  async findAll() {
-    return this.tasksService.findAll();
+  async findAll(@Query() filterDto: TaskFilterDto) {
+    return this.tasksService.findAll(filterDto);
   }
 
   @Get(':id')

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskFilterDto } from './dto/task-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
@@ -22,8 +23,22 @@ export class TasksService {
     return this.tasksRepository.save(task);
   }
 
-  async findAll(): Promise<Task[]> {
-    return this.tasksRepository.find();
+  async findAll(filterDto?: TaskFilterDto): Promise<Task[]> {
+    if (!filterDto || Object.keys(filterDto).length === 0) {
+      return this.tasksRepository.find({ order: { createdAt: 'DESC' } });
+    }
+
+    const { status, sortBy = 'createdAt', order = 'DESC' } = filterDto;
+
+    const queryBuilder = this.tasksRepository
+      .createQueryBuilder('task')
+      .orderBy(`task.${sortBy}`, order);
+
+    if (status) {
+      queryBuilder.andWhere('task.status = :status', { status });
+    }
+
+    return queryBuilder.getMany();
   }
 
   async findOne(id: number): Promise<Task | null> {
@@ -35,8 +50,8 @@ export class TasksService {
     if (!task) throw new NotFoundException(`Task with id ${id} not found`);
 
     return this.tasksRepository.save({
-      id,
       ...updateTaskDto,
+      id,
     });
   }
 
