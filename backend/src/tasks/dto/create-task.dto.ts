@@ -16,5 +16,5 @@ export class CreateTaskDto {
   @IsEnum(TaskStatus, {
     message: `Status must be one of: ${Object.values(TaskStatus).join(', ')}`,
   })
-  status?: string;
+  status?: TaskStatus;
 }
