@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 
 @Entity()
@@ -12,12 +13,15 @@ export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 100 })
+  @Column({
+    length: 100,
+  })
   title: string;
 
   @Column('text')
   description: string;
 
+  @Index()
   @Column({
     type: 'enum',
     enum: TaskStatus,
@@ -25,9 +29,9 @@ export class Task {
   })
   status: TaskStatus;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

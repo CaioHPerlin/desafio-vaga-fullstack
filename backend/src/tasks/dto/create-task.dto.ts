@@ -1,20 +1,30 @@
-import { IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { TaskStatus } from 'src/tasks/constants/task-status.enum';
 
 export class CreateTaskDto {
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   @Length(1, 100, {
-    message: 'Title must have a maximum of 100 characters',
+    message: 'title must be between 1 and 100 characters',
   })
   title: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
+  @Length(1, 500, {
+    message: 'description must be between 1 and 500 characters',
+  })
   description: string;
 
+  @IsOptional()
   @IsEnum(TaskStatus, {
-    message: `Status must be one of: ${Object.values(TaskStatus).join(', ')}`,
+    message: `status must be one of: ${Object.values(TaskStatus).join(', ')}`,
   })
   status?: TaskStatus;
 }

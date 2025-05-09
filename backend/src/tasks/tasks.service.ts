@@ -19,11 +19,7 @@ export class TasksService {
   }
 
   async findAll(filterDto?: TaskFilterDto): Promise<Task[]> {
-    if (!filterDto || Object.keys(filterDto).length === 0) {
-      return this.tasksRepository.find({ order: { createdAt: 'DESC' } });
-    }
-
-    const { status, sortBy = 'createdAt', order = 'DESC' } = filterDto;
+    const { status, sortBy = 'createdAt', order = 'DESC' } = filterDto || {};
 
     const queryBuilder = this.tasksRepository
       .createQueryBuilder('task')
