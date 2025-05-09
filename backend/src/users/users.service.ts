@@ -23,7 +23,11 @@ export class UsersService {
       email,
       password: hashedPassword,
     });
-    return this.usersRepository.save(newUser);
+
+    const savedUser = await this.usersRepository.save(newUser);
+    const { password: _, ...userWithoutPassword } = savedUser;
+
+    return userWithoutPassword;
   }
 
   async findOneByEmail(email: string): Promise<User | null> {
