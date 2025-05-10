@@ -12,7 +12,7 @@ export default function Dashboard() {
   const { data: tasks, isLoading } = useTasksQuery();
 
   return (
-    <main className="h-screen flex flex-wrap items-start pt-5 justify-center">
+    <main className="h-screen flex flex-wrap sm:items-start items-center pb-10 sm:pt-5 justify-center">
       <Card className="grid text-center grid-cols-1 p-4 w-3/4">
         <h1 className="text-3xl font-semibold mb-4">Tarefas</h1>
 
@@ -25,7 +25,7 @@ export default function Dashboard() {
           <TaskTable tasks={tasks!} />
         )}
 
-        <div className="flex flex-wrap w-full max-w-[400px] ml-auto gap-5 mt-4">
+        <div className="flex w-full max-w-[400px] ml-auto gap-5 mt-4 flex-wrap-reverse sm:flex-wrap">
           <Button
             variant={"secondary"}
             className="flex-1 min-w-[120px]"

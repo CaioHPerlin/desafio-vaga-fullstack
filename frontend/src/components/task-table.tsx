@@ -80,18 +80,20 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
       {/* List for smaller screens */}
       <div className="block sm:hidden space-y-4">
         {tasks.map((task: Task) => (
-          <Card key={task.id} className=" p-4">
+          <Card key={task.id} className="p-1">
             <h3 className="font-semibold text-lg">{task.title}</h3>
-            <p className="text-sm text-gray-500 text-left">
+            <p className="text-sm text-gray-500 text-center">
               {task.description}
             </p>
             <p className="text-sm font-medium">
               Status: {TaskStatusToReadable[task.status]}
             </p>
             <div className="flex w-full gap-2 mt-2">
-              <Button className="flex-1" size="sm" variant="destructive">
-                Deletar
-              </Button>
+              <DeleteTaskDialog task={task}>
+                <Button className="flex-1" size="sm" variant="destructive">
+                  Deletar
+                </Button>
+              </DeleteTaskDialog>
               <Button className="flex-1" size="sm" variant="outline">
                 Atualizar
               </Button>
