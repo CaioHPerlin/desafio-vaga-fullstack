@@ -5,7 +5,7 @@ import type {
   CreateTaskDto,
   Task,
   TaskFilterDto,
-  UpdateTaskDtop,
+  UpdateTaskDto,
 } from "@/types/tasks.types";
 
 export const tasksService = {
@@ -36,7 +36,7 @@ export const tasksService = {
     }
   },
 
-  async update(id: number, taskData: UpdateTaskDtop): Promise<Task> {
+  async update(id: number, taskData: UpdateTaskDto): Promise<Task> {
     try {
       const response = await api.patch(`/tasks/${id}`, taskData);
       return response.data;

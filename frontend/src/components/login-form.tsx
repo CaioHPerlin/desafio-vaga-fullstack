@@ -73,7 +73,7 @@ export default function LoginForm() {
         <p className="text-sm">
           Ainda não possui uma conta?{" "}
           <Link to="/register" className="underline">
-            Registre-se
+            Cadastre-se
           </Link>
         </p>
         <Button isLoading={form.formState.isSubmitting} type="submit">

@@ -32,7 +32,7 @@ export default function RegisterForm() {
     try {
       await register(data.email, data.password);
       toast.success(`Cadastro bem-sucedido.`, {
-        action: { label: "Faça Login", onClick: () => navigate("/login") },
+        action: { label: "Faça login", onClick: () => navigate("/login") },
       });
     } catch (error) {
       toast.error((error as Error).message);
@@ -91,7 +91,7 @@ export default function RegisterForm() {
         <p className="text-sm">
           Já possui uma conta?{" "}
           <Link to="/login" className="underline">
-            Faça Login
+            Faça login
           </Link>
         </p>
         <Button isLoading={form.formState.isSubmitting} type="submit">
