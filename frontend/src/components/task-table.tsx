@@ -1,5 +1,4 @@
 import { DeleteTaskDialog } from "@/components/delete-task-dialog";
-import { TaskFilters } from "@/components/task-filters";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -16,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UpdateTaskDialog } from "@/components/update-task-dialog";
-import type { Task, TaskFilterDto } from "@/types/tasks.types";
+import type { Task } from "@/types/tasks.types";
 import { TaskStatusToReadable } from "@/types/tasks.types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { Ellipsis, Pencil, Trash } from "lucide-react";
