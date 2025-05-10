@@ -32,6 +32,11 @@ export function DeleteTaskDialog({
     },
   });
 
+  function handleDelete(id: number) {
+    optimisticDelete(id);
+    setIsOpen(false);
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -53,7 +58,7 @@ export function DeleteTaskDialog({
           </Button>
           <Button
             variant="destructive"
-            onClick={() => optimisticDelete(task.id)}
+            onClick={() => handleDelete(task.id)}
             isLoading={isPending}
           >
             Deletar

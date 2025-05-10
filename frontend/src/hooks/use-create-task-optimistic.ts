@@ -1,5 +1,5 @@
 import { tasksService } from "@/services/tasks.service";
-import type { CreateTaskDto, Task } from "@/types/tasks.types";
+import type { CreateTaskDto, Task, TaskFilterDto } from "@/types/tasks.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateTaskOptimistic({
@@ -8,7 +8,7 @@ export function useCreateTaskOptimistic({
 }: {
   onSuccess?: () => void;
   onError?: () => void;
-}) {
+} = {}) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -16,29 +16,48 @@ export function useCreateTaskOptimistic({
     onMutate: async (newTask: CreateTaskDto) => {
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
 
-      const previousTasks = queryClient.getQueryData<Task[]>(["tasks"]);
+      const queryCache = queryClient.getQueryCache();
+      const taskQueries = queryCache.findAll({ queryKey: ["tasks"] });
 
-      const isoDate = new Date().toISOString();
+      const previousQueries = taskQueries.map((query) => ({
+        queryKey: query.queryKey,
+        data: query.state.data,
+      }));
+
       const optimisticTask: Task = {
-        id: Date.now(),
+        id: Date.now(), // temp Id
         title: newTask.title,
         description: newTask.description,
         status: newTask.status || "pending",
-        createdAt: isoDate,
-        updatedAt: isoDate,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
-      queryClient.setQueryData(["tasks"], (old: Task[] = []) => [
-        optimisticTask,
-        ...old,
-      ]);
 
-      return { previousTasks };
+      taskQueries.forEach(({ queryKey }) => {
+        const filters = queryKey[1] as TaskFilterDto | undefined;
+
+        const shouldIncludeTask =
+          !filters ||
+          !filters.status ||
+          filters.status === optimisticTask.status;
+
+        if (shouldIncludeTask) {
+          queryClient.setQueryData<Task[]>(queryKey, (oldTasks = []) => [
+            optimisticTask,
+            ...oldTasks,
+          ]);
+        }
+      });
+
+      return { previousQueries };
     },
     onError: (_, __, context) => {
-      queryClient.setQueryData(["tasks"], context?.previousTasks);
-      onError && onError();
+      context?.previousQueries?.forEach(({ queryKey, data }) => {
+        queryClient.setQueryData(queryKey, data);
+      });
+      onError?.();
     },
-    onSuccess: onSuccess,
+    onSuccess,
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },

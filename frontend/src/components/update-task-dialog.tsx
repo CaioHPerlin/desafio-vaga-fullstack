@@ -54,7 +54,6 @@ export function UpdateTaskDialog({ task, children }: UpdateTaskDialogProps) {
   const { mutate: optimisticMutate, isPending } = useUpdateTaskOptimistic({
     onSuccess: () => {
       toast.success("Tarefa atualizada com sucesso");
-      setIsOpen(false);
     },
     onError: () => {
       toast.error("Ocorreu um erro ao atualizar a tarefa");
@@ -66,6 +65,7 @@ export function UpdateTaskDialog({ task, children }: UpdateTaskDialogProps) {
       ...data,
       id: task.id,
     });
+    setIsOpen(false);
   }
 
   return (

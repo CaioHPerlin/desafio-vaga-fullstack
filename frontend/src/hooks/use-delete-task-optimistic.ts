@@ -8,25 +8,39 @@ export function useDeleteTaskOptimistic({
 }: {
   onSuccess?: () => void;
   onError?: () => void;
-}) {
+} = {}) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: tasksService.remove,
-    onMutate: async (id) => {
+    onMutate: async (id: number) => {
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
-      const previousTasks = queryClient.getQueryData<Task[]>(["tasks"]);
 
-      queryClient.setQueryData<Task[]>(["tasks"], (old) =>
-        old?.filter((task) => task.id !== id)
-      );
+      const queryCache = queryClient.getQueryCache();
+      const taskQueries = queryCache.findAll({ queryKey: ["tasks"] });
 
-      return { previousTasks };
+      const previousQueries = taskQueries.map((query) => ({
+        queryKey: query.queryKey,
+        data: query.state.data,
+      }));
+
+      taskQueries.forEach(({ queryKey }) => {
+        queryClient.setQueryData<Task[]>(queryKey, (oldTasks = []) =>
+          oldTasks.filter((task) => task.id !== id)
+        );
+      });
+
+      return { previousQueries };
     },
     onError: (_, __, context) => {
-      queryClient.setQueryData(["tasks"], context?.previousTasks);
-      onError && onError();
+      context?.previousQueries?.forEach(({ queryKey, data }) => {
+        queryClient.setQueryData(queryKey, data);
+      });
+      onError?.();
     },
     onSuccess: onSuccess,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
   });
 }

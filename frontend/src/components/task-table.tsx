@@ -1,4 +1,5 @@
 import { DeleteTaskDialog } from "@/components/delete-task-dialog";
+import { TaskFilters } from "@/components/task-filters";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,12 +16,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UpdateTaskDialog } from "@/components/update-task-dialog";
-import type { Task } from "@/types/tasks.types";
+import type { Task, TaskFilterDto } from "@/types/tasks.types";
 import { TaskStatusToReadable } from "@/types/tasks.types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { Ellipsis, Pencil, Trash } from "lucide-react";
 
-export function TaskTable({ tasks }: { tasks: Task[] }) {
+interface TaskTableProps {
+  tasks: Task[];
+}
+
+export function TaskTable({ tasks }: TaskTableProps) {
   if (!tasks.length) {
     return (
       <p className="text-center text-gray-500">Nenhuma tarefa encontrada.</p>
@@ -39,6 +44,8 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
             <TableHead className="text-center">Tarefa</TableHead>
             <TableHead className="w-[200px] text-center">Descrição</TableHead>
             <TableHead className="text-center">Status</TableHead>
+            <TableHead className="text-center">Data de Criação</TableHead>
+            <TableHead className="text-center">Data de Atualização</TableHead>
             <TableHead className="text-center">Ação</TableHead>
           </TableRow>
         </TableHeader>
@@ -48,6 +55,24 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
               <TableCell>{task.title}</TableCell>
               <TableCell>{task.description}</TableCell>
               <TableCell>{TaskStatusToReadable[task.status]}</TableCell>
+              <TableCell>
+                {new Date(task.createdAt).toLocaleTimeString("pt-BR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </TableCell>
+              <TableCell>
+                {new Date(task.updatedAt).toLocaleTimeString("pt-BR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
