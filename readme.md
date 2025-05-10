@@ -13,6 +13,9 @@
 
 ```bash
 git clone https://github.com/CaioHPerlin/desafio-vaga-fullstack.git
+```
+
+```bash
 cd desafio-vaga-fullstack
 ```
 
@@ -39,6 +42,8 @@ cd frontend
 npm i
 npm run dev
 ```
+
+---
 
 ```bash
 cd backend
@@ -71,5 +76,3 @@ npm run start:dev
 ### **Banco de Dados**
 
 - **MySQL**
-
----
