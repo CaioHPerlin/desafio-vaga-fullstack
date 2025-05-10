@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import Login from "@/pages/login";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/providers/theme.provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
+        <Toaster />
       </ThemeProvider>
     </>
   );
