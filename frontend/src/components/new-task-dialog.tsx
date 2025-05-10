@@ -59,7 +59,7 @@ export function NewTaskDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nova Tarefa</DialogTitle>
+          <DialogTitle>Nova tarefa</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -90,10 +90,7 @@ export function NewTaskDialog() {
                 </FormItem>
               )}
             />
-            <div className="flex flex-row gap-2">
-              <Button isLoading={isPending} type="submit">
-                Salvar
-              </Button>
+            <div className="flex flex-row justify-end gap-2">
               <DialogClose asChild>
                 <Button
                   variant={"secondary"}
@@ -103,6 +100,9 @@ export function NewTaskDialog() {
                   Cancelar
                 </Button>
               </DialogClose>
+              <Button isLoading={isPending} type="submit">
+                Salvar
+              </Button>
             </div>
           </form>
         </Form>

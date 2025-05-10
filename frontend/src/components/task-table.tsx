@@ -1,5 +1,7 @@
+import { DeleteTaskDialog } from "@/components/delete-task-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -16,7 +18,7 @@ import {
 import type { Task } from "@/types/tasks.types";
 import { TaskStatusToReadable } from "@/types/tasks.types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import { Ellipsis, Pencil, PencilIcon, Trash, TrashIcon } from "lucide-react";
+import { Ellipsis, Pencil, Trash } from "lucide-react";
 
 export function TaskTable({ tasks }: { tasks: Task[] }) {
   if (!tasks.length) {
@@ -61,10 +63,12 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
                     <DropdownMenuItem>
                       <Pencil /> Atualizar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Trash />
-                      Deletar
-                    </DropdownMenuItem>
+                    <DeleteTaskDialog task={task}>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <Trash />
+                        Deletar
+                      </DropdownMenuItem>
+                    </DeleteTaskDialog>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
