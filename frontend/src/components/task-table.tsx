@@ -1,7 +1,6 @@
 import { DeleteTaskDialog } from "@/components/delete-task-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -15,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { UpdateTaskDialog } from "@/components/update-task-dialog";
 import type { Task } from "@/types/tasks.types";
 import { TaskStatusToReadable } from "@/types/tasks.types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
@@ -60,9 +60,11 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <Pencil /> Atualizar
-                    </DropdownMenuItem>
+                    <UpdateTaskDialog task={task}>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <Pencil /> Atualizar
+                      </DropdownMenuItem>
+                    </UpdateTaskDialog>
                     <DeleteTaskDialog task={task}>
                       <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         <Trash />
@@ -80,7 +82,7 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
       {/* List for smaller screens */}
       <div className="block sm:hidden space-y-4">
         {tasks.map((task: Task) => (
-          <Card key={task.id} className="p-1">
+          <Card key={task.id} className="p-3">
             <h3 className="font-semibold text-lg">{task.title}</h3>
             <p className="text-sm text-gray-500 text-center">
               {task.description}
@@ -94,9 +96,11 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
                   Deletar
                 </Button>
               </DeleteTaskDialog>
-              <Button className="flex-1" size="sm" variant="outline">
-                Atualizar
-              </Button>
+              <UpdateTaskDialog task={task}>
+                <Button className="flex-1" size="sm" variant="outline">
+                  Atualizar
+                </Button>
+              </UpdateTaskDialog>
             </div>
           </Card>
         ))}

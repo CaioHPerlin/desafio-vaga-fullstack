@@ -12,8 +12,8 @@ export default function Dashboard() {
   const { data: tasks, isLoading } = useTasksQuery();
 
   return (
-    <main className="h-screen flex flex-wrap sm:items-start items-center pb-10 sm:pt-5 justify-center">
-      <Card className="grid text-center grid-cols-1 p-4 w-3/4">
+    <main className="h-screen flex flex-wrap sm:items-start p-2 items-center pb-10 sm:pt-5 justify-center">
+      <Card className="grid text-center grid-cols-1 p-4 w-full sm:w-3/4">
         <h1 className="text-3xl font-semibold mb-4">Tarefas</h1>
 
         {isLoading ? (
