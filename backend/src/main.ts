@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Swagger
   const config = new DocumentBuilder()
     .setTitle('Task Manager API')
     .setDescription('API for managing tasks.')
@@ -14,10 +15,11 @@ async function bootstrap() {
     .addTag('tasks')
     .addBearerAuth()
     .build();
-
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
 
+  // App
+  app.enableCors({ origin: 'http://localhost:5173' });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
