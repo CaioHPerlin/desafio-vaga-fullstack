@@ -32,7 +32,7 @@ export function TaskFilters({
           onFilterChange("status", value as TaskFilterDto["status"])
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="flex-1 sm:flex-initial">
           <SelectValue placeholder="Filtrar por status" />
         </SelectTrigger>
         <SelectContent>
@@ -51,7 +51,7 @@ export function TaskFilters({
           onFilterChange("sortBy", value as TaskFilterDto["sortBy"])
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="flex-1 sm:flex-initial">
           <SelectValue placeholder="Ordenar por" />
         </SelectTrigger>
         <SelectContent>
@@ -66,7 +66,7 @@ export function TaskFilters({
           onFilterChange("order", value as TaskFilterDto["order"])
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="flex-1 sm:flex-initial">
           <SelectValue placeholder="Ordem" />
         </SelectTrigger>
         <SelectContent>

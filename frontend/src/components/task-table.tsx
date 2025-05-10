@@ -27,7 +27,9 @@ interface TaskTableProps {
 export function TaskTable({ tasks }: TaskTableProps) {
   if (!tasks.length) {
     return (
-      <p className="text-center text-gray-500">Nenhuma tarefa encontrada.</p>
+      <p className="text-center text-gray-500 py-10">
+        Nenhuma tarefa encontrada.
+      </p>
     );
   }
 
