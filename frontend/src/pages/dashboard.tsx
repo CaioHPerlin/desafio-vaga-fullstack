@@ -2,20 +2,14 @@ import { NewTaskDialog } from "@/components/new-task-dialog";
 import { TaskTable } from "@/components/task-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useAuth } from "@/hooks/useAuth";
-import { tasksService } from "@/services/tasks.service";
-import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/use-auth";
+import { useTasksQuery } from "@/hooks/use-tasks-query";
 import { Loader2Icon } from "lucide-react";
 
 export default function Dashboard() {
   const { logout } = useAuth();
 
-  const { data: tasks = [], isLoading } = useQuery({
-    queryKey: ["tasks"],
-    queryFn: () => tasksService.findAll(),
-    refetchInterval: (data) => (data ? 30 * 1000 : false), // Polling each 30 seconds
-    refetchOnWindowFocus: true, // Refetch once user refocuses the window
-  });
+  const { data: tasks, isLoading } = useTasksQuery();
 
   return (
     <main className="h-screen flex flex-wrap items-start pt-5 justify-center">
@@ -27,7 +21,7 @@ export default function Dashboard() {
             <p className="text-center text-gray-500">Buscando tarefas...</p>
           </div>
         ) : (
-          <TaskTable tasks={tasks} />
+          <TaskTable tasks={tasks!} />
         )}
         <div className="flex flex-wrap gap-5 mt-4">
           <NewTaskDialog />

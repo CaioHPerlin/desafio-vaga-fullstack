@@ -1,5 +1,5 @@
 // components/auth-wrapper.tsx
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/use-auth";
 import { Navigate, Outlet } from "react-router";
 
 interface AuthWrapperProps {
