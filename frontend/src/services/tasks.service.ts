@@ -11,8 +11,6 @@ import type {
 export const tasksService = {
   async create(taskData: CreateTaskDto): Promise<Task> {
     try {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-          throw new Error("");
       const response = await api.post("/tasks", taskData);
       return response.data;
     } catch (error) {
@@ -30,18 +28,7 @@ export const tasksService = {
     return response.data;
   },
 
-  async findOne(id: number): Promise<Task> {
-    try {
-      const response = await api.get(`/tasks/${id}`);
-      return response.data;
-    } catch (error) {
-      handleApiError(error);
-    }
-  },
-
   async update(id: number, taskData: UpdateTaskDto): Promise<Task> {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-          throw new Error("");
     try {
       const response = await api.patch(`/tasks/${id}`, taskData);
       return response.data;
@@ -51,8 +38,6 @@ export const tasksService = {
   },
 
   async remove(id: number): Promise<void> {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-          throw new Error("");
     try {
       await api.delete(`/tasks/${id}`);
     } catch (error) {
