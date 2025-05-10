@@ -4,6 +4,7 @@ import { LoginResponseDto } from 'src/auth/dto/login-response.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
+import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,16 +13,13 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string): Promise<LoginResponseDto> {
-    const user = await this.validateUser(email, password);
-    if (!user) throw new UnauthorizedException();
-
-    const payload = { email: user.email, sub: user.id };
+  async login(user: User): Promise<LoginResponseDto> {
+    const payload: JwtPayloadDto = { email: user.email, sub: user.id };
 
     return {
       accessToken: await this.jwtService.signAsync(payload),
-      email: user.email,
       id: user.id,
+      email: user.email,
     };
   }
 

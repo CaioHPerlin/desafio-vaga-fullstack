@@ -9,11 +9,13 @@ import {
   HttpCode,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskFilterDto } from 'src/tasks/dto/task-filter.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('tasks')
 export class TasksController {
