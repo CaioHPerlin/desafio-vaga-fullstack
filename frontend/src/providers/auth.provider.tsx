@@ -20,7 +20,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           // Verify token validity by fetching profile
           const profile = await getProfile();
-          console.log(profile);
           setUser(profile);
         } catch (error) {
           localStorage.removeItem("accessToken");
