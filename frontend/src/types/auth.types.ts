@@ -8,3 +8,19 @@ export const loginSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export type LoginResponse = {
+  accessToken: string;
+  id: number;
+  email: string;
+};
+
+export type RegisterInput = {
+  email: string;
+  password: string;
+};
+
+export type AuthUser = {
+  id: number;
+  email: string;
+};
