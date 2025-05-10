@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -25,41 +26,67 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="text-center">Tarefa</TableHead>
-          <TableHead className="w-[200px] text-center">Descrição</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Ação</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {tasks.map((task: Task) => (
-          <TableRow key={task.id}>
-            <TableCell>{task.title}</TableCell>
-            <TableCell>{task.description}</TableCell>
-            <TableCell>{TaskStatusToReadable[task.status]}</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Ações da tarefa"
-                  >
-                    <Ellipsis />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Atualizar</DropdownMenuItem>
-                  <DropdownMenuItem>Deletar</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
+    <>
+      {/* Table for larger screens */}
+      <Table className="hidden sm:table">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-center">Tarefa</TableHead>
+            <TableHead className="w-[200px] text-center">Descrição</TableHead>
+            <TableHead className="text-center">Status</TableHead>
+            <TableHead className="text-center">Ação</TableHead>
           </TableRow>
+        </TableHeader>
+        <TableBody>
+          {tasks.map((task: Task) => (
+            <TableRow key={task.id}>
+              <TableCell>{task.title}</TableCell>
+              <TableCell>{task.description}</TableCell>
+              <TableCell>{TaskStatusToReadable[task.status]}</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Ações da tarefa"
+                    >
+                      <Ellipsis />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>Atualizar</DropdownMenuItem>
+                    <DropdownMenuItem>Deletar</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      {/* List for smaller screens */}
+      <div className="block sm:hidden space-y-4">
+        {tasks.map((task: Task) => (
+          <Card key={task.id} className=" p-4">
+            <h3 className="font-semibold text-lg">{task.title}</h3>
+            <p className="text-sm text-gray-500 text-left">
+              {task.description}
+            </p>
+            <p className="text-sm font-medium">
+              Status: {TaskStatusToReadable[task.status]}
+            </p>
+            <div className="flex w-full gap-2 mt-2">
+              <Button className="flex-1" size="sm" variant="destructive">
+                Deletar
+              </Button>
+              <Button className="flex-1" size="sm" variant="outline">
+                Atualizar
+              </Button>
+            </div>
+          </Card>
         ))}
-      </TableBody>
-    </Table>
+      </div>
+    </>
   );
 }

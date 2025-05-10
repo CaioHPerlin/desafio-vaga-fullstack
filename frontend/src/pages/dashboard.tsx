@@ -13,8 +13,9 @@ export default function Dashboard() {
 
   return (
     <main className="h-screen flex flex-wrap items-start pt-5 justify-center">
-      <Card className="grid text-center grid-cols-1 p-4">
+      <Card className="grid text-center grid-cols-1 p-4 w-3/4">
         <h1 className="text-3xl font-semibold mb-4">Tarefas</h1>
+
         {isLoading ? (
           <div className="flex justify-center gap-2 flex-row">
             <Loader2Icon className="animate-spin"></Loader2Icon>
@@ -23,8 +24,8 @@ export default function Dashboard() {
         ) : (
           <TaskTable tasks={tasks!} />
         )}
-        <div className="flex flex-wrap gap-5 mt-4">
-          <NewTaskDialog />
+
+        <div className="flex flex-wrap w-full max-w-[400px] ml-auto gap-5 mt-4">
           <Button
             variant={"secondary"}
             className="flex-1 min-w-[120px]"
@@ -32,6 +33,7 @@ export default function Dashboard() {
           >
             Sair
           </Button>
+          <NewTaskDialog />
         </div>
       </Card>
     </main>
