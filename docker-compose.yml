@@ -4,7 +4,7 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: db
       MYSQL_DATABASE: taskmanager
       MYSQL_USER: user
       MYSQL_PASSWORD: password
@@ -13,51 +13,5 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  redis:
-    image: redis:7.2
-    container_name: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-  backend:
-    container_name: backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USERNAME: user
-      DB_PASSWORD: password
-      DB_NAME: taskmanager
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      JWT_SECRET: your_secret_key
-    depends_on:
-      - db
-      - redis
-    volumes:
-      - ./backend:/usr/src/app
-    command: npm run start:dev
-
-  frontend:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
-    command: npm run dev
-    depends_on:
-      - backend
-
 volumes:
   mysql_data:
-  redis_data:

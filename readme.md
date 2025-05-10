@@ -1,98 +1,75 @@
-# 🧠 Desafio Técnico - Desenvolvedor(a) Full Stack (React + NestJS)
+# 📄 Gerenciador de Tarefas - Desafio Técnico
 
-Seja bem-vindo(a)! Este é o desafio técnico para a vaga de **Desenvolvedor(a) Full Stack**. O objetivo é avaliar suas habilidades práticas com as tecnologias que usamos no dia a dia.
+## 🚀 Como Rodar o Projeto Localmente
 
-## 🎯 Objetivo
+### **Pré-requisitos**
 
-Criar uma aplicação full stack de gerenciamento de tarefas com as seguintes funcionalidades:
+- Node.js (v16 ou superior)
+- Docker e Docker Compose para inicialização do banco de dados
 
-- Cadastro, listagem, edição e exclusão de tarefas
-- Autenticação com JWT (login e logout)
-- Atualização em tempo real (ex: via polling ou optimistic updates)
-- Interface moderna e responsiva
+### **Passos para Instalação**
 
----
+#### 1. Clone o repositório:
 
-## 🧱 Requisitos Técnicos
+```bash
+git clone https://github.com/CaioHPerlin/desafio-vaga-fullstack.git
+cd desafio-vaga-fullstack
+```
 
-### Frontend
-- React com Hooks e Context API
-- TypeScript
-- TailwindCSS
-- React Query **ou** SWR
-- Vite **ou** Webpack (preferencialmente Vite)
-- Integração com a API (REST)
+#### 2. Inicie o banco de dados:
 
-### Backend
-- Node.js com NestJS (estrutura modular)
-- TypeScript
-- Autenticação com JWT
-- TypeORM
+O arquivo docker-compose na raíz desse projeto contém um serviço de banco de dados mysql pré-configurado (com variáveis de ambiente definidas em plain text) para facilitar o teste. Simplesmente incie o serviço:
+
+```bash
+docker-compose up -d db
+```
+
+#### 3. Defina as variáveis de ambiente do backend
+
+O diretório `/backend` contém um `.env.example` com alguns valores pré-definidos, simplesmente copie-o e renomeie a cópia para `.env`.
+
+#### 4. Defina as variáveis de ambiente do frontend
+
+O diretório `/frontend` contém um `.env.example` com um valor pré-definido que aponta para `http://localhost:3000`, endereço padrão local do backend. Copie o arquivo e renomeie a cópia para `.env`.
+
+#### 5. Instale as dependências e execute ambos os projetos
+
+```bash
+cd frontend
+npm i
+npm run dev
+```
+
+```bash
+cd backend
+npm i
+npm run start:dev
+```
+
+## 🛠️ Tecnologias Utilizadas
+
+### **Frontend**
+
+- **React** com Hooks e Context API
+- **TypeScript**
+- **TailwindCSS** para estilização
+- **shadcn/ui** para componentes base
+- **React Query** para gerenciamento de estado e data fetching
+- **Vite** como bundler
+- Integração com API REST através do **Axios**
+
+### **Backend**
+
+- **Node.js** com **NestJS**
+- **TypeScript**
+- Autenticação com **JWT**
+- **TypeORM** para gerenciamento do banco de dados
 - Validações com `class-validator`
-- Swagger para documentação da API
+- **Passport** para _middlewares_ (Guards e Strategies) de autenticação
+- **Swagger** para documentação da API
 
-### Banco de Dados
-- MySQL (preferencial)
-- Redis (caso use cache ou filas)
+### **Banco de Dados**
 
-### DevOps (Diferencial)
-- Docker para desenvolvimento
-- Hospedagem local (com Docker)
+- **MySQL**
 
 ---
-
-## 💡 Funcionalidades Esperadas
-
-1. **Login / Logout**
-   - JWT baseado em email e senha
-   - Middleware de proteção de rotas no backend
-
-2. **CRUD de Tarefas**
-   - Título
-   - Descrição
-   - Status (Pendente, Em Andamento, Concluída)
-   - Data de criação e atualização
-
-3. **Listagem e Filtros**
-   - Exibir tarefas por status
-   - Ordenar por data
-
-4. **Feedback visual**
-   - Toasts ou alerts ao salvar, editar e deletar tarefas
-
-5. **Documentação da API**
-   - Swagger acessível em `/docs`
-
----
-
-## 🧪 Avaliação
-
-Serão considerados os seguintes critérios:
-
-- Estrutura e organização do código
-- Boas práticas com React e NestJS
-- Clareza na modelagem de dados
-- Qualidade visual e responsividade
-- Uso correto do TypeScript
-- Implementação de autenticação segura
-- Uso eficiente de ferramentas de data fetching (React Query/SWR)
-- Uso de Docker (como diferencial)
-
----
-
-## 🚀 Como entregar
-
-1. Faça um fork deste repositório
-2. Implemente a solução
-3. Adicione um `README.md` com:
-   - Instruções de instalação
-   - Como rodar o projeto localmente
-4. Envie o link do repositório para avaliação
-
----
-
-## ❓ Dúvidas?
-
-Se tiver qualquer dúvida, pode nos contatar.
-
-Boa sorte! Estamos animados para ver seu talento em ação 🚀
