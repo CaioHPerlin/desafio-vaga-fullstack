@@ -1,12 +1,7 @@
-import { User } from 'src/users/entities/user.entity';
+import { ProfileResponseDto } from 'src/auth/dto/profile-response.dto';
 
 declare module 'express' {
   interface Request {
-    user: {
-      email: string;
-      sub: number;
-      iat: number;
-      exp: number;
-    };
+    user: ProfileResponseDto;
   }
 }
