@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -19,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, Loader2Icon } from "lucide-react";
 
 function TaskTable({ tasks }: { tasks: Task[] }) {
   if (!tasks.length) {
@@ -74,6 +73,8 @@ export default function Dashboard() {
   const { data: tasks = [], isLoading } = useQuery({
     queryKey: ["tasks"],
     queryFn: () => tasksService.findAll(),
+    refetchInterval: (data) => (data ? 30 * 1000 : false), // Polling each 30 seconds
+    refetchOnWindowFocus: true, // Refetch once user refocuses the window
   });
 
   return (
@@ -81,7 +82,10 @@ export default function Dashboard() {
       <Card className="grid text-center grid-cols-1 p-4">
         <h1 className="text-3xl font-semibold mb-4">Tarefas</h1>
         {isLoading ? (
-          <p className="text-center text-gray-500">Carregando tarefas...</p>
+          <div className="flex justify-center gap-2 flex-row">
+            <Loader2Icon className="animate-spin"></Loader2Icon>
+            <p className="text-center text-gray-500">Buscando tarefas...</p>
+          </div>
         ) : (
           <TaskTable tasks={tasks} />
         )}
