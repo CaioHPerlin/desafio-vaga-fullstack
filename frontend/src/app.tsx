@@ -6,24 +6,31 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/providers/auth.provider";
 import { AuthWrapper } from "@/components/private-wrapper";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <AuthProvider>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <ThemeToggle />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AuthWrapper type="public" redirectTo="/" />}>
-              <Route path="/login" element={<Login />} />
-            </Route>
-            <Route element={<AuthWrapper type="private" redirectTo="/login" />}>
-              <Route path="/" element={<Dashboard />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-        <Toaster />
-      </ThemeProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <ThemeToggle />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<AuthWrapper type="public" redirectTo="/" />}>
+                <Route path="/login" element={<Login />} />
+              </Route>
+              <Route
+                element={<AuthWrapper type="private" redirectTo="/login" />}
+              >
+                <Route path="/" element={<Dashboard />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+          <Toaster />
+        </ThemeProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
