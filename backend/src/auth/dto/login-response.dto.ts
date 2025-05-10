@@ -1,4 +1,4 @@
-export class AuthResultDto {
+export class LoginResponseDto {
   accessToken: string;
   id: number;
   email: string;

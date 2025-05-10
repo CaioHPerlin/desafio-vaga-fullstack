@@ -33,12 +33,4 @@ export class UsersService {
   async findOneByEmail(email: string): Promise<User | null> {
     return this.usersRepository.findOneBy({ email: email });
   }
-
-  async validate(email: string, password: string): Promise<User | null> {
-    const user = await this.findOneByEmail(email);
-    if (user && (await bcrypt.compare(password, user.password))) {
-      return user;
-    }
-    return null;
-  }
 }
