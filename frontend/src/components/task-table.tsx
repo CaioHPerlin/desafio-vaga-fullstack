@@ -16,7 +16,7 @@ import {
 import type { Task } from "@/types/tasks.types";
 import { TaskStatusToReadable } from "@/types/tasks.types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, Pencil, PencilIcon, Trash, TrashIcon } from "lucide-react";
 
 export function TaskTable({ tasks }: { tasks: Task[] }) {
   if (!tasks.length) {
@@ -28,7 +28,10 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
   return (
     <>
       {/* Table for larger screens */}
-      <Table className="hidden sm:table">
+      <Table
+        className="hidden sm:table"
+        containerClassName="h-fit max-h-[70vh] overflow-y-auto relative"
+      >
         <TableHeader>
           <TableRow>
             <TableHead className="text-center">Tarefa</TableHead>
@@ -55,8 +58,13 @@ export function TaskTable({ tasks }: { tasks: Task[] }) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Atualizar</DropdownMenuItem>
-                    <DropdownMenuItem>Deletar</DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Pencil /> Atualizar
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Trash />
+                      Deletar
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

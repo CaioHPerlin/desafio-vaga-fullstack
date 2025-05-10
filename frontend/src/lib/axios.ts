@@ -23,7 +23,6 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Auto-logout on 401 Unauthorized
       localStorage.removeItem("accessToken");
-      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

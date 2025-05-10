@@ -9,28 +9,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
-import { loginSchema, type LoginInput } from "@/types/auth.types";
+import { registerSchema, type RegisterInput } from "@/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
-export default function LoginForm() {
-  const form = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+export default function RegisterForm() {
+  const form = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
+      passwordConfirm: "",
     },
   });
-  const { login } = useAuth();
+
+  const { register } = useAuth();
   const navigate = useNavigate();
 
-  async function onSubmit(data: LoginInput) {
+  async function onSubmit(data: RegisterInput) {
     try {
-      await login(data.email, data.password);
-      toast.success(`Autenticação bem-sucedida.`);
-      navigate("/");
+      await register(data.email, data.password);
+      toast.success(`Cadastro bem-sucedido.`, {
+        action: { label: "Faça Login", onClick: () => navigate("/login") },
+      });
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -70,10 +73,25 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="passwordConfirm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirmar Senha</FormLabel>
+              <FormControl>
+                <Input placeholder="******" type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <p className="text-sm">
-          Ainda não possui uma conta?{" "}
-          <Link to="/register" className="underline">
-            Registre-se
+          Já possui uma conta?{" "}
+          <Link to="/login" className="underline">
+            Faça Login
           </Link>
         </p>
         <Button isLoading={form.formState.isSubmitting} type="submit">
