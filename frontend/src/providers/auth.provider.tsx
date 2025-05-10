@@ -20,6 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           // Verify token validity by fetching profile
           const profile = await getProfile();
+          console.log(profile);
           setUser(profile);
         } catch (error) {
           localStorage.removeItem("accessToken");
@@ -36,17 +37,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await api.post("/auth/login", { email, password });
       const { accessToken } = response.data;
 
+      // Set accessToken and let the axios interceptor handle the auth header
       localStorage.setItem("accessToken", accessToken);
-      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
-      // Fetch and set user profile after login
       const profile = await getProfile();
       setUser(profile);
     } catch (error) {
       localStorage.removeItem("accessToken");
-      delete api.defaults.headers.common["Authorization"];
       setUser(null);
-
       handleApiError(error, ERROR_MESSAGES);
     }
   };
@@ -61,7 +59,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    delete api.defaults.headers.common["Authorization"];
     setUser(null);
   };
 

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/theme.provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/providers/auth.provider";
+import { AuthWrapper } from "@/components/private-wrapper";
 
 export default function App() {
   return (
@@ -13,8 +14,12 @@ export default function App() {
         <ThemeToggle />
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Dashboard />} />
+            <Route element={<AuthWrapper type="public" redirectTo="/" />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
+            <Route element={<AuthWrapper type="private" redirectTo="/login" />}>
+              <Route path="/" element={<Dashboard />} />
+            </Route>
           </Routes>
         </BrowserRouter>
         <Toaster />
